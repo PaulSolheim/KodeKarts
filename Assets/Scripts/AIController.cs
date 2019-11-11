@@ -33,7 +33,7 @@ public class AIController : MonoBehaviour
 
         ds.Go(accel, steer, brake);
 
-        if (distanceToTarget < 2) //threshold, make larger if car starts to circle waypoint
+        if (distanceToTarget < 4) //threshold, make larger if car starts to circle waypoint
         {
             currentWP++;
             if (currentWP >= circuit.waypoints.Length)
