@@ -1,0 +1,123 @@
+KodeKarts:
+
+3. Gang:
+
+Gjør om roadStartPositions og roadStart boxColliders til Triggers:
+Aktiver isTrigger for begge to under Track1 i scenen.
+
+Alle GameObjects under Track1 skal ha MeshColliders, ikke bare de som starter med road
+som vi gjorde forrige gang:
+
+Marker alle under de som heter road...:
+Add Component, skriv Mesh og velg MeshCollider
+
+Nå kan du skru av Plane i scenen eller slette den hvis du vil (jeg har lagt den inn i scenen).
+
+Legg til WayPoints for resten av banen (50-60 waypoints til sammen):
+Klikk på Cube24 under Circuit, Ctrl-D for å lage en kopi, flytt til nytt sted, Ctrl-D ...
+
+Demo av flipping av bilen:
+
+Åpne AIController skriptet
+sett aksellerasjon til 1 og kommenter ut bremsekoden (linje 29 og 32)
+
+Lage AntiFlipping:
+
+Gå til scripts mappa, høyreklikk lag nytt skript, navn: FlipCar, dobbeltklikk:
+
+deklarer 2 globale variabler:
+Rigidbody rb;
+float lastTimeChecked;
+
+i Start:
+rb = this.GetComponent<Rigidbody>();
+
+i Update:
+if (transform.up.y > 0f || rb.velocity.magnitude > 1)
+{
+	lastTimeChecked = Time.time;
+}
+
+if (Time.time > lastTimeChecked + 3)
+{
+	RightCar();
+}
+
+Lag RightCar metoden:
+
+void RightCar()
+{
+	this.transform.position += Vector3.up;
+	this.transform.rotation = Quaternion.LookRotation(this.transform.forward);
+}
+
+første linje flytter bilen opp i lufta
+andre linje roterer bilen.
+
+Ctrl-S for å lagre, tilbake til Unity
+
+Velg CarBody og legg til RightCar skriptet
+
+Test koden, hva skjer om du havner på siden og ikke på taket?
+
+Endre koden i Update fra:
+transform.up.y > 0f
+til
+transform.up.y > 0.5f
+
+Test koden pånytt
+
+Lage AntiRoll Bar:
+(stabilisering)
+
+Lag et nytt skript:
+AntiRollBar
+
+public float antiRoll = 5000f;
+public WheelCollider wheelLFront;
+public WheelCollider wheelRFront;
+public WheelCollider wheelLBack;
+public WheelCollider wheelRBack;
+Rigidbody rb;
+
+i Start:
+rb = this.GetComponent<Rigidbody>();
+
+void GroundedWheels(WheelCollider WL, WheelCollider WR)
+{
+	WheelHit hit;
+	float travelL = 1.0f;
+	float travelR = 1.0f;
+	
+	bool groundedL = WL.GetGroundHit(out hit);
+	if (groundedL)
+		travelL = (-WL.transform.InverseTransformPoint(hit.point).y - WL.radius) / WL.suspensionDistance;
+
+	bool groundedR = WR.GetGroundHit(out hit);
+	if (groundedR)
+		travelR = (-WR.transform.InverseTransformPoint(hit.point).y - WR.radius) / WR.suspensionDistance;
+
+	float antiRollForce = (travelL - travelR) * antiRoll;
+	
+	if (groundedL)
+		rb.AddForceAtPosition(WL.transform.up * -antiRollForce, WL.transform.position);
+
+	if (groundedR)
+		rb.AddForceAtPosition(WR.transform.up * antiRollForce, WR.transform.position);
+}
+
+Gjør om Update() til FixedUpdate:
+
+GroundedWheels(wheelLFront, wheelRFront);
+GroundedWheels(wheelLBack, wheelRBack);
+
+Ctrl-S for å lagre, tilbake til Unity
+
+Marker CarBody på bilen, legg til AntiRoll skriptet
+sett opp WheelColliders med drag-drop
+
+Test koden
+
+Vi må legge inn litt bremsing (som vi fjernet tidligere)
+
+(Neste: AntiRoll min 13:00 + Normalised Braking)
