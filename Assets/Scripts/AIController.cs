@@ -26,10 +26,10 @@ public class AIController : MonoBehaviour
         float targetAngle = Mathf.Atan2(localTarget.x, localTarget.z) * Mathf.Rad2Deg;
 
         float steer = Mathf.Clamp(targetAngle * steeringSensitivity, -1, 1) * Mathf.Sign(ds.currentSpeed);
-        float accel = 0.5f;
+        float accel = 1f;
         float brake = 0;
 
-        if (distanceToTarget < 5) { brake = 0.8f; accel = 0.1f; }
+        //if (distanceToTarget < 5) { brake = 0.8f; accel = 0.1f; }
 
         ds.Go(accel, steer, brake);
 

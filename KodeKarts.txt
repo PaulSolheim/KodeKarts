@@ -67,6 +67,8 @@ transform.up.y > 0.5f
 
 Test koden pånytt
 
+--- HIT
+
 Lage AntiRoll Bar:
 (stabilisering)
 
