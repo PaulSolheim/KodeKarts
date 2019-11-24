@@ -5578,6 +5578,23 @@ GameObject:
     type: 3}
   m_PrefabInstance: {fileID: 1564698970}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1516619568
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1516619567}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 532f0bf7ff36cc047ae652d966df0a60, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  antiRoll: 5000
+  wheelLFront: {fileID: 1564698973}
+  wheelRFront: {fileID: 1564698974}
+  wheelLBack: {fileID: 1564698971}
+  wheelRBack: {fileID: 1564698972}
 --- !u!114 &1516619573
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5826,6 +5843,30 @@ PrefabInstance:
       objectReference: {fileID: 234083455}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: cb75f86bb3c01b545a7add8a858192fd, type: 3}
+--- !u!146 &1564698971 stripped
+WheelCollider:
+  m_CorrespondingSourceObject: {fileID: 6701166240399949882, guid: cb75f86bb3c01b545a7add8a858192fd,
+    type: 3}
+  m_PrefabInstance: {fileID: 1564698970}
+  m_PrefabAsset: {fileID: 0}
+--- !u!146 &1564698972 stripped
+WheelCollider:
+  m_CorrespondingSourceObject: {fileID: 6701166238427483628, guid: cb75f86bb3c01b545a7add8a858192fd,
+    type: 3}
+  m_PrefabInstance: {fileID: 1564698970}
+  m_PrefabAsset: {fileID: 0}
+--- !u!146 &1564698973 stripped
+WheelCollider:
+  m_CorrespondingSourceObject: {fileID: 6701166238927560055, guid: cb75f86bb3c01b545a7add8a858192fd,
+    type: 3}
+  m_PrefabInstance: {fileID: 1564698970}
+  m_PrefabAsset: {fileID: 0}
+--- !u!146 &1564698974 stripped
+WheelCollider:
+  m_CorrespondingSourceObject: {fileID: 6701166238896769093, guid: cb75f86bb3c01b545a7add8a858192fd,
+    type: 3}
+  m_PrefabInstance: {fileID: 1564698970}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1566376173 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 5857983359876365716, guid: 884cbb94a5a025f4887968abf33e6147,

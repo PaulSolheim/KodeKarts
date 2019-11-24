@@ -29,7 +29,7 @@ public class AIController : MonoBehaviour
         float accel = 1f;
         float brake = 0;
 
-        //if (distanceToTarget < 5) { brake = 0.8f; accel = 0.1f; }
+        if (distanceToTarget < 5) { brake = 0.8f; accel = 0.1f; }
 
         ds.Go(accel, steer, brake);
 

@@ -22,7 +22,7 @@ public class RightCar : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (transform.up.y > 0f || rb.velocity.magnitude > 1)
+        if (transform.up.y > 0.5f || rb.velocity.magnitude > 1)
         {
             lastTimeChecked = Time.time;
         }

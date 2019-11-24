@@ -115,8 +115,10 @@ GroundedWheels(wheelLBack, wheelRBack);
 
 Ctrl-S for å lagre, tilbake til Unity
 
-Marker CarBody på bilen, legg til AntiRoll skriptet
-sett opp WheelColliders med drag-drop
+Marker CarBody på bilen, 
+legg til AntiRoll skriptet
+sett opp WheelColliders 
+med drag-drop
 
 Test koden
 
