@@ -9,6 +9,7 @@ public class AntiRollBar : MonoBehaviour
     public WheelCollider wheelRFront;
     public WheelCollider wheelLBack;
     public WheelCollider wheelRBack;
+    public GameObject COM;
     Rigidbody rb;
 
     void GroundedWheels(WheelCollider WL, WheelCollider WR)
@@ -39,6 +40,7 @@ public class AntiRollBar : MonoBehaviour
     void Start()
     {
         rb = this.GetComponent<Rigidbody>();
+        rb.centerOfMass = COM.transform.localPosition;
     }
 
     void FixedUpdate()
