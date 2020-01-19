@@ -125,3 +125,54 @@ Test koden
 Vi må legge inn litt bremsing (som vi fjernet tidligere)
 
 (Neste: AntiRoll min 13:00 + Normalised Braking)
+
+HIT ---
+
+La oss lage en progress tracker
+
+Åpne AIController
+
+GameObject tracker;
+int currentTrackerWP = 0;
+float lookAhead = 10;
+
+i Start()
+	...
+	tracker = GameObject.CreatePrimitive(PrimitiveType.Capsule);
+	DestroyImmediate(tracker.GetComponent<Collider>());
+	tracker.transform.position = ds.rb.gameObject.transform.position;
+	tracker.transform.rotation = ds.rb.gameObject.tracker.rotation;
+	
+Lag en ny funksjon:
+
+void ProgressTracker()
+{
+	Debug.DrawLine(ds.rb.gameObject.transform.position, tracker.transform.position);
+	
+	if (Vector3.Distance(ds.rb.gameObject.transfor.position, tracker.transform.position) > lookAhead) return;
+	
+	tracker.transform.LookAt(circuit.waypoints.[currentTrackerWP].transform.position);
+	tracker.transform.Translate(0, 0, 1.0f); // speed of tracker
+	
+	if (Vector3.Distance(tracker.transform.position, circuit.waypoints[currentTrackerWP].transform.position) < 1)
+	{
+		currentTrackerWP++;
+		if (currentTrackerWP > = circuit.waypoints.Length)
+			currentTrackerWP = 0;
+	}
+}
+
+i starten av Update()
+
+	ProgressTracker();
+
+Ctrl-S, gå til Unity:
+
+Sett opp sceneview så du ser hele banen
+ovenfra.
+
+Test spillet
+
+Hvis det fungerer kan vi lage koden
+så bilen følger etter trackeren vår.
+

@@ -15,6 +15,10 @@ public class AIController : MonoBehaviour
     float totalDistanceToTarget;
     bool isJump = false;
 
+    GameObject tracker;
+    int currentTrackerWP = 0;
+    float lookAhead = 10;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -22,12 +26,36 @@ public class AIController : MonoBehaviour
         target = circuit.waypoints[currentWP].transform.position;
         nextTarget = circuit.waypoints[currentWP + 1].transform.position;
         totalDistanceToTarget = Vector3.Distance(target, ds.rb.gameObject.transform.position);
+
+        tracker = GameObject.CreatePrimitive(PrimitiveType.Capsule);
+        DestroyImmediate(tracker.GetComponent<Collider>());
+        tracker.transform.position = ds.rb.gameObject.transform.position;
+        tracker.transform.rotation = ds.rb.gameObject.transform.rotation;
+    }
+
+    void ProgressTracker()
+    {
+        Debug.DrawLine(ds.rb.gameObject.transform.position, tracker.transform.position);
+
+        if (Vector3.Distance(ds.rb.gameObject.transform.position, tracker.transform.position) > lookAhead)
+            return;
+
+        tracker.transform.LookAt(circuit.waypoints[currentTrackerWP].transform.position);
+        tracker.transform.Translate(0, 0, 1.0f);
+
+        if (Vector3.Distance(tracker.transform.position, circuit.waypoints[currentTrackerWP].transform.position) < 1)
+        {
+            currentTrackerWP++;
+            if (currentTrackerWP >= circuit.waypoints.Length)
+                currentTrackerWP = 0;
+        }
     }
 
     // Update is called once per frame
     void Update()
     {
-        Vector3 localTarget = ds.rb.gameObject.transform.InverseTransformPoint(target);
+        ProgressTracker();
+        Vector3 localTarget = ds.rb.gameObject.transform.InverseTransformPoint(tracker.transform.position);
         Vector3 nextLocalTarget = ds.rb.gameObject.transform.InverseTransformPoint(nextTarget);
         float distanceToTarget = Vector3.Distance(target, ds.rb.gameObject.transform.position);
 
