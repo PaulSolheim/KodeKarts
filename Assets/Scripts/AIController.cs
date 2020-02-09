@@ -18,6 +18,8 @@ public class AIController : MonoBehaviour
     int currentTrackerWP = 0;
     public float lookAhead = 10;
 
+    float lastTimeMoving = 0f;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -55,8 +57,27 @@ public class AIController : MonoBehaviour
     void Update()
     {
         ProgressTracker();
-        Vector3 localTarget = ds.rb.gameObject.transform.InverseTransformPoint(tracker.transform.position);
-        float targetAngle = Mathf.Atan2(localTarget.x, localTarget.z) * Mathf.Rad2Deg;
+        Vector3 localTarget;
+        float targetAngle;
+
+        if (ds.rb.velocity.magnitude > 1)
+            lastTimeMoving = Time.time;
+
+        if (Time.time > lastTimeMoving + 4)
+        {
+            ds.rb.gameObject.transform.position = circuit.waypoints[currentTrackerWP].transform.position + Vector3.up * 2;
+            transform.transform.position = ds.rb.gameObject.transform.position;
+        }
+
+        if (Time.time < ds.rb.GetComponent<AvoidDetector>().avoidTime)
+        {
+            localTarget = tracker.transform.right * ds.rb.GetComponent<AvoidDetector>().avoidPath;
+        } else
+        {
+            localTarget = ds.rb.gameObject.transform.InverseTransformPoint(tracker.transform.position);
+        }
+        targetAngle = Mathf.Atan2(localTarget.x, localTarget.z) * Mathf.Rad2Deg;
+
         float steer = Mathf.Clamp(targetAngle * steeringSensitivity, -1, 1) * Mathf.Sign(ds.CurrentSpeed);
 
         float speedFactor = ds.CurrentSpeed / ds.maxSpeed;
