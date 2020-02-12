@@ -33,6 +33,8 @@ public class AIController : MonoBehaviour
         tracker.GetComponent<MeshRenderer>().enabled = false;
         tracker.transform.position = ds.rb.gameObject.transform.position;
         tracker.transform.rotation = ds.rb.gameObject.transform.rotation;
+
+        this.GetComponent<Ghost>().enabled = false;
     }
 
     void ProgressTracker()
@@ -53,6 +55,12 @@ public class AIController : MonoBehaviour
         }
     }
 
+    void ResetLayer()
+    {
+        ds.rb.gameObject.layer = 0;
+        this.GetComponent<Ghost>().enabled = false;
+    }
+
     // Update is called once per frame
     void Update()
     {
@@ -67,6 +75,9 @@ public class AIController : MonoBehaviour
         {
             ds.rb.gameObject.transform.position = circuit.waypoints[currentTrackerWP].transform.position + Vector3.up * 2;
             transform.transform.position = ds.rb.gameObject.transform.position;
+            ds.rb.gameObject.layer = 8;
+            this.GetComponent<Ghost>().enabled = true;
+            Invoke("ResetLayer", 3);
         }
 
         if (Time.time < ds.rb.GetComponent<AvoidDetector>().avoidTime)

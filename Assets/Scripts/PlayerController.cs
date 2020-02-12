@@ -10,6 +10,7 @@ public class PlayerController : MonoBehaviour
     void Start()
     {
         ds = this.GetComponent<Drive>();
+        this.GetComponent<Ghost>().enabled = false;
     }
 
     // Update is called once per frame
