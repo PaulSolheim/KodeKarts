@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class Drive : MonoBehaviour
 {
@@ -32,23 +33,10 @@ public class Drive : MonoBehaviour
     float currentGearPerc;
     public float maxSpeed = 200;
 
-    //public void StartSkidTrail(int i)
-    //{
-    //    if (skidTrails[i] == null)
-    //        skidTrails[i] = Instantiate(SkidTrailPrefab);
+    public GameObject playerNamePrefab;
+    public Renderer jeepMesh;
 
-    //    skidTrails[i].parent = WCs[i].transform;
-    //    skidTrails[i].localPosition = -Vector3.up * WCs[i].radius;
-    //}
-
-    //public void EndSkidTrail(int i)
-    //{
-    //    if (skidTrails[i] == null) return;
-    //    Transform holder = skidTrails[i];
-    //    skidTrails[i] = null;
-    //    holder.parent = null;
-    //    Destroy(holder.gameObject, 30);
-    //}
+    string[] aiNames = { "Trevor", "Nick", "Penny", "Bob", "Dolly", "Alice", "Donald", "Phil" };
 
     // Start is called before the first frame update
     void Start()
@@ -59,6 +47,15 @@ public class Drive : MonoBehaviour
             skidSmoke[i].Stop();
         }
         brakeLight.SetActive(false);
+
+        GameObject playerName = Instantiate(playerNamePrefab);
+        playerName.GetComponent<NameUIController>().target = rb.gameObject.transform;
+        if (this.GetComponent<AIController>().enabled)
+            playerName.GetComponent<Text>().text = aiNames[Random.Range(0, aiNames.Length - 1)];
+        else
+            playerName.GetComponent<Text>().text = "Human";
+
+        playerName.GetComponent<NameUIController>().carRend = jeepMesh;
     }
 
     public void CalculateEngineSound()
