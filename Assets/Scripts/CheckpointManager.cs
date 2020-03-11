@@ -8,11 +8,21 @@ public class CheckpointManager : MonoBehaviour
     public int checkPoint = -1;
     int checkPointCount;
     int nextCheckPoint;
+    public GameObject lastCP;
 
     // Start is called before the first frame update
     void Start()
     {
-        checkPointCount = GameObject.FindGameObjectsWithTag("checkpoints").Length;
+        GameObject[] cps = GameObject.FindGameObjectsWithTag("checkpoints");
+        checkPointCount = cps.Length;
+        foreach (GameObject c in cps)
+        {
+            if (c.name == "0")
+            {
+                lastCP = c;
+                break;
+            }
+        }
     }
 
     private void OnTriggerEnter(Collider col)
@@ -22,6 +32,7 @@ public class CheckpointManager : MonoBehaviour
             int thisCPNumber = int.Parse(col.gameObject.name);
             if (thisCPNumber == nextCheckPoint)
             {
+                lastCP = col.gameObject;
                 checkPoint = thisCPNumber;
                 if (checkPoint == 0) lap++;
 
