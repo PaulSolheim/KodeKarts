@@ -187,6 +187,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerName: {fileID: 0}
+  lapDisplay: {fileID: 3655064940082851240}
   target: {fileID: 0}
   carRend: {fileID: 0}
 --- !u!225 &5914436220173657170
