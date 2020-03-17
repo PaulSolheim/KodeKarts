@@ -8,12 +8,14 @@ struct PlayerStats
     public string name;
     public int position;
     public float time;
+    public int checkpoint;
 
-    public PlayerStats(string n, int p, float t)
+    public PlayerStats(string n, int p, float t, int c)
     {
         name = n;
         position = p;
         time = t;
+        checkpoint = c;
     }
 }
 
@@ -22,17 +24,23 @@ public class LeaderBoard
     static Dictionary<int, PlayerStats> lb = new Dictionary<int, PlayerStats>();
     static int carsRegistered = -1;
 
+    public static void Reset()
+    {
+        lb.Clear();
+        carsRegistered = -1;
+    }
+
     public static int RegisterCar(string name)
     {
         carsRegistered++;
-        lb.Add(carsRegistered, new PlayerStats(name, 0, 0));
+        lb.Add(carsRegistered, new PlayerStats(name, 0, 0, 0));
         return carsRegistered;
     }
 
     public static void SetPosition(int rego, int lap, int checkpoint, float time)
     {
         int position = lap * 1000 + checkpoint;
-        lb[rego] = new PlayerStats(lb[rego].name, position, time);
+        lb[rego] = new PlayerStats(lb[rego].name, position, time, checkpoint);
     }
 
     public static string GetPosition(int rego)
@@ -60,7 +68,7 @@ public class LeaderBoard
         List<string> places = new List<string>();
         foreach (KeyValuePair<int, PlayerStats> pos in lb.OrderByDescending(key => key.Value.position).ThenBy(key => key.Value.time))
         {
-            places.Add(pos.Value.name);
+            places.Add(pos.Value.name + "(" + pos.Value.checkpoint + ")");
         }
 
         return places;

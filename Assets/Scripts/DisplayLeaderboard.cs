@@ -10,6 +10,11 @@ public class DisplayLeaderboard : MonoBehaviour
     public Text third;
     public Text fourth;
 
+    void Start()
+    {
+        LeaderBoard.Reset();
+    }
+
     void LateUpdate()
     {
         List<string> places = LeaderBoard.GetPlaces();

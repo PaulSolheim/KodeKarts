@@ -10,6 +10,7 @@ public class PlayerController : MonoBehaviour
     Quaternion lastRotation;
 
     CheckpointManager cpm;
+    float finishSteer;
 
     void ResetLayer()
     {
@@ -24,11 +25,22 @@ public class PlayerController : MonoBehaviour
         this.GetComponent<Ghost>().enabled = false;
         lastPosition = ds.rb.gameObject.transform.position;
         lastRotation = ds.rb.gameObject.transform.rotation;
+        finishSteer = Random.Range(-1.0f, 1.0f);
     }
 
     // Update is called once per frame
     void Update()
     {
+        if (cpm == null)
+            cpm = ds.rb.GetComponent<CheckpointManager>();
+
+        if (cpm.lap == RaceMonitor.totalLaps + 1)
+        {
+            ds.highAccel.Stop();
+            ds.Go(0, finishSteer, 0);
+            return;
+        }
+
         float a = Input.GetAxis("Vertical");
         float s = Input.GetAxis("Horizontal");
         float b = Input.GetAxis("Jump");
@@ -36,8 +48,7 @@ public class PlayerController : MonoBehaviour
         if (ds.rb.velocity.magnitude > 1 || !RaceMonitor.racing)
             lastTimeMoving = Time.time;
 
-        RaycastHit hit;
-        if (Physics.Raycast(ds.rb.gameObject.transform.position, -Vector3.up, out hit, 10))
+        if (Physics.Raycast(ds.rb.gameObject.transform.position, -Vector3.up, out RaycastHit hit, 10))
         {
             if (hit.collider.gameObject.tag == "road")
             {
@@ -46,12 +57,9 @@ public class PlayerController : MonoBehaviour
             }
         }
 
-        if (Time.time > lastTimeMoving + 4)
+        if (Time.time > lastTimeMoving + 4 || ds.rb.gameObject.transform.position.y < -5 || ds.rb.gameObject.transform.position.y > 10)
         {
-            if (cpm == null)
-                cpm = ds.rb.GetComponent<CheckpointManager>();
-
-            ds.rb.gameObject.transform.position = cpm.lastCP.transform.position + Vector3.up * 2;
+            ds.rb.gameObject.transform.position = cpm.lastCP.transform.position;
             ds.rb.gameObject.transform.rotation = cpm.lastCP.transform.rotation;
             ds.rb.gameObject.layer = 8;
             this.GetComponent<Ghost>().enabled = true;
