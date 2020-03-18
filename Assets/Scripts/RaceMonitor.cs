@@ -68,6 +68,12 @@ public class RaceMonitor : MonoBehaviour
         SceneManager.LoadScene("Track1");
     }
 
+    public void MainMenu()
+    {
+        racing = false;
+        SceneManager.LoadScene("MainMenu");
+    }
+
     void LateUpdate()
     {
         int finishedCount = 0;

@@ -25,11 +25,6 @@ public class LaunchManager : MonoBehaviour
         SceneManager.LoadScene("Track1");
     }
 
-    public void MainMenu()
-    {
-        SceneManager.LoadScene("MainMenu");
-    }
-
     // Update is called once per frame
     void Update()
     {
