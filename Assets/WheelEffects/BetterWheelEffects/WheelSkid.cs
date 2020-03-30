@@ -68,7 +68,8 @@ public class WheelSkid : MonoBehaviour {
 			if (skidTotal >= SKID_FX_SPEED) {
 				float intensity = Mathf.Clamp01(skidTotal / MAX_SKID_INTENSITY);
                 // Account for further movement since the last FixedUpdate
-                Vector3 skidPoint = wheelCollider.transform.position - wheelCollider.transform.up * wheelCollider.radius;//wheelHitInfo.point;// + (rb.velocity * (Time.time - lastFixedUpdateTime));
+                Vector3 skidPoint = wheelCollider.transform.position; // - wheelCollider.transform.up * wheelCollider.radius;//wheelHitInfo.point;// + (rb.velocity * (Time.time - lastFixedUpdateTime));
+                // Fixed Skidmarks being placed to low in line above -- Paal
 
                 lastSkid = skidmarksController.AddSkidMark(skidPoint, wheelHitInfo.normal, intensity, lastSkid);
 			}

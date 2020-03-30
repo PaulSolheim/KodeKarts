@@ -36,7 +36,8 @@ public class Drive : MonoBehaviour
     public GameObject playerNamePrefab;
     public Renderer jeepMesh;
 
-    string[] aiNames = { "Trevor", "Nick", "Penny", "Bob", "Dolly", "Alice", "Donald", "Phil" };
+    public string networkName = "";
+    string[] aiNames = { "Trevor", "Nick", "Penny", "Bob", "Dolly", "Alice", "Donald", "Phil", "Betty", "Sally", "John", "Carl", "Lisa", "Nelly", "Ginger", "Ted", "Emma", "Henry" };
 
     // Start is called before the first frame update
     void Start()
@@ -51,7 +52,10 @@ public class Drive : MonoBehaviour
         GameObject playerName = Instantiate(playerNamePrefab);
         playerName.GetComponent<NameUIController>().target = rb.gameObject.transform;
         if (this.GetComponent<AIController>().enabled)
-            playerName.GetComponent<Text>().text = aiNames[Random.Range(0, aiNames.Length - 1)];
+            if (networkName != "")
+                playerName.GetComponent<Text>().text = networkName;
+            else
+                playerName.GetComponent<Text>().text = aiNames[Random.Range(0, aiNames.Length - 1)];
         else
             playerName.GetComponent<Text>().text = PlayerPrefs.GetString("PlayerName");
 

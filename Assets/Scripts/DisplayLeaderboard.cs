@@ -18,9 +18,13 @@ public class DisplayLeaderboard : MonoBehaviour
     void LateUpdate()
     {
         List<string> places = LeaderBoard.GetPlaces();
-        first.text = places[0];
-        second.text = places[1];
-        third.text = places[2];
-        fourth.text = places[3];
+        if (places.Count > 0)
+            first.text = places[0];
+        if (places.Count > 1)
+            second.text = places[1];
+        if (places.Count > 2)
+            third.text = places[2];
+        if (places.Count > 3)
+            fourth.text = places[3];
     }
 }
